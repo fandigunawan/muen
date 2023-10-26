@@ -18,7 +18,7 @@
 
 with Skp.Subjects;
 
-with SK.CPU;
+with SK.Arch;
 with SK.VMX;
 
 package body SK.Scheduler
@@ -478,7 +478,7 @@ is
    is
       Cur_Group : Policy.Extended_Scheduling_Group_Range
         := Scheduling_Partitions (Partition).Earliest_Timer;
-      Now : constant Word64 := CPU.RDTSC;
+      Now : constant Word64 := Arch.Get_Current_Timestamp;
    begin
       Find_Earliest_Non_Expire_Timer_Loop :
       while Cur_Group /= Policy.No_Group loop
@@ -786,13 +786,7 @@ is
                --D start time.
                Global_Current_Major_Start_Cycles := Next_Major_Start;
 
-               pragma $Major_Frame_Warnings
-                 (GNAT, Off,
-                  "condition can only be True if invalid values present");
                if Current_Major_ID /= Next_Major_ID then
-                  pragma $Major_Frame_Warnings
-                    (GNAT, On,
-                     "condition can only be True if invalid values present");
                   --D @Text Section => impl_handle_timer_expiry, Priority => 10
                   --D If the major frame has changed, set the corresponding
                   --D minor frame barrier configuration as specified by the
@@ -841,7 +835,7 @@ is
 
    procedure Set_VMX_Exit_Timer
    is
-      Now      : constant Word64 := CPU.RDTSC;
+      Now      : constant Word64 := Arch.Get_Current_Timestamp;
       Deadline : Word64;
       Cycles   : Word64;
    begin
@@ -907,7 +901,7 @@ is
       Init_Scheduling_Groups;
 
       declare
-         Now               : constant Word64 := CPU.RDTSC;
+         Now               : constant Word64 := Arch.Get_Current_Timestamp;
          Current_Subject   : constant Skp.Global_Subject_ID_Type
            := Get_Current_Subject_ID;
          Current_VMCS_Addr : constant Word64
