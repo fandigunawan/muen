@@ -19,15 +19,12 @@
 with Ada.Strings.Fixed;
 with Ada.Strings.Unbounded;
 
-with Interfaces;
-
 with DOM.Core.Nodes;
 with DOM.Core.Elements;
 
 with McKae.XML.XPath.XIA;
 
 with Mulog;
-with Muxml.Utils;
 with Mutools.XML_Utils;
 with Mutools.Templates;
 
@@ -99,24 +96,17 @@ is
       Policy     : Muxml.XML_Data_Type)
    is
       use Ada.Strings.Unbounded;
-      use Interfaces;
 
-      S_Count    : constant Natural := DOM.Core.Nodes.Length
+      S_Count   : constant Natural := DOM.Core.Nodes.Length
         (List => McKae.XML.XPath.XIA.XPath_Query
            (N     => Policy.Doc,
             XPath => "/system/subjects/subject"));
-      CPU_Count  : constant Natural
+      CPU_Count : constant Natural
         := Mutools.XML_Utils.Get_Active_CPU_Count (Data => Policy);
-      CPU_Nodes  : constant DOM.Core.Node_List
+      CPU_Nodes : constant DOM.Core.Node_List
         := McKae.XML.XPath.XIA.XPath_Query
           (N     => Policy.Doc,
            XPath => "/system/hardware/processor/cpu");
-      VMXON_Addr : constant Unsigned_64 := Unsigned_64'Value
-        (Muxml.Utils.Get_Attribute
-           (Doc   => Policy.Doc,
-            XPath => "/system/memory/memory[@type='system_vmxon' and "
-            & "contains(string(@name),'kernel_0')]",
-            Name  => "physicalAddress"));
 
       APIC_ID_Predicate, APIC_ID_Array : Unbounded_String;
 
@@ -135,10 +125,6 @@ is
         (Template => Tmpl,
          Pattern  => "__subj_range__",
          Content  => "0 .."  & Positive'Image (S_Count - 1));
-      Mutools.Templates.Replace (Template => Tmpl,
-                                 Pattern  => "__vmxon_addr__",
-                                 Content  => Mutools.Utils.To_Hex
-                                   (Number => VMXON_Addr));
 
       Get_APIC_ID_Strings (CPU_Nodes     => CPU_Nodes,
                            Active_CPUs   => CPU_Count,

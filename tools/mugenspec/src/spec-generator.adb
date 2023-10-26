@@ -19,6 +19,7 @@
 with Spec.Utils;
 with Spec.Policy_Gpr;
 with Spec.Skp;
+with Spec.Skp_Arch;
 with Spec.Skp_Events;
 with Spec.Skp_Scheduling;
 with Spec.Skp_Hardware;
@@ -39,6 +40,9 @@ is
    is
    begin
       Skp.Write
+        (Output_Dir => Output_Dir,
+         Policy     => Policy);
+      Skp_Arch.Write
         (Output_Dir => Output_Dir,
          Policy     => Policy);
       Skp_Scheduling.Write
