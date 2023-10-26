@@ -16,6 +16,8 @@
 --  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 --
 
+with Ada.Strings.Fixed;
+
 with Interfaces;
 
 with Mulog;
@@ -42,6 +44,12 @@ is
               XPath => "/system/memory/memory[@type='system_vmxon' and "
               & "contains(string(@name),'kernel_0')]",
               Name  => "physicalAddress"));
+      Timer_Rate : constant Natural
+        := Natural'Value
+          (Muxml.Utils.Get_Attribute
+             (Doc   => Policy.Doc,
+              XPath => "/system/hardware/processor",
+              Name  => "vmxTimerRate"));
 
       Tmpl : Mutools.Templates.Template_Type;
    begin
@@ -54,6 +62,12 @@ is
         (Template => Tmpl,
          Pattern  => "__vmxon_addr__",
          Content  => Mutools.Utils.To_Hex (Number => VMXON_Addr));
+      Mutools.Templates.Replace
+        (Template => Tmpl,
+         Pattern  => "__vmx_timer_rate__",
+         Content  => Ada.Strings.Fixed.Trim
+           (Source => Timer_Rate'Img,
+            Side   => Ada.Strings.Left));
       Mutools.Templates.Write
         (Template => Tmpl,
          Filename => Output_Dir & "/" & Filename);

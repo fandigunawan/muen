@@ -7,8 +7,6 @@ with SK;
 package Skp.Scheduling
 is
 
-   VMX_Timer_Rate : constant := 5;
-
    Max_Groups_Per_Partition : constant := 64;
 
    type Scheduling_Partition_Range is range 1 .. 3;

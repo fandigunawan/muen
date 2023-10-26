@@ -4,6 +4,7 @@
 package Skp.Arch
 is
 
-   Vmxon_Address : constant := 16#1000#;
+   Vmxon_Address  : constant := 16#1000#;
+   VMX_Timer_Rate : constant := 5;
 
 end Skp.Arch;

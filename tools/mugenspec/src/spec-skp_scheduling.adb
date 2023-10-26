@@ -108,10 +108,6 @@ is
           (DOM.Core.Elements.Get_Attribute
              (Elem => Processor,
               Name => "speed"));
-      Timer_Rate   : constant Natural
-        := Natural'Value
-          (DOM.Core.Elements.Get_Attribute (Elem => Processor,
-                                            Name => "vmxTimerRate"));
       Timer_Factor : constant Interfaces.Unsigned_64
         := CPU_Speed_Hz / Interfaces.Unsigned_64'Value
           (DOM.Core.Elements.Get_Attribute
@@ -561,12 +557,6 @@ is
       Max_Minor_Count   := Get_Max_Minor_Count (Schedule => Scheduling);
       Max_Barrier_Count := Get_Max_Barrier_Count (Schedule => Scheduling);
 
-      TMPL.Stream (Template => Template);
-      TMPL.Write
-        (Template => Template,
-         Item     => Ada.Strings.Fixed.Trim
-           (Source => Timer_Rate'Img,
-            Side   => Ada.Strings.Left));
       TMPL.Stream (Template => Template);
       TMPL.Write
         (Template => Template,
