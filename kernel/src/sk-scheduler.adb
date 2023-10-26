@@ -17,7 +17,6 @@
 --
 
 with SK.Arch;
-with SK.VMX;
 
 package body SK.Scheduler
 with
@@ -857,8 +856,7 @@ is
          Cycles := 0;
       end if;
 
-      VMX.VMCS_Write (Field => Constants.GUEST_VMX_PREEMPT_TIMER,
-                      Value => Cycles / 2 ** Policy.VMX_Timer_Rate);
+      Arch.Set_Timer (Cycles => Cycles);
    end Set_VMX_Exit_Timer;
 
    -------------------------------------------------------------------------
