@@ -830,7 +830,7 @@ is
 
    -------------------------------------------------------------------------
 
-   procedure Set_VMX_Exit_Timer
+   procedure Set_Preemption_Timer
    is
       Now      : constant Word64 := Arch.Get_Current_Timestamp;
       Deadline : Word64;
@@ -857,7 +857,7 @@ is
       end if;
 
       Arch.Set_Timer (Cycles => Cycles);
-   end Set_VMX_Exit_Timer;
+   end Set_Preemption_Timer;
 
    -------------------------------------------------------------------------
 
