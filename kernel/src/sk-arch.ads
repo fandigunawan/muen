@@ -31,4 +31,7 @@ is
    --  Load hardware-specific state of subject specified by ID.
    procedure Load_Subject (ID : Skp.Global_Subject_ID_Type);
 
+   --  Set timer to fire in the specified number of CPU cycles from now.
+   procedure Set_Timer (Cycles : Word64);
+
 end SK.Arch;
